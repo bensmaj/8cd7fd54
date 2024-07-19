@@ -1,10 +1,11 @@
+// This component is used for the routing, Using React Router
+
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Header from "./Header.jsx";
-import Activities from "./components/Activities.jsx";
+import Header from "../components/Header.jsx";
 import { Toaster } from "react-hot-toast";
 
-import Home from "./Home.jsx"; // Assuming you have a Home component
+import Home from "./Home.jsx";
 import Archived from "./Archived.jsx";
 
 const App = () => {

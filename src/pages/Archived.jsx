@@ -1,5 +1,7 @@
+// This component is the archived page. displays all the archived calls
+
 import React from "react";
-import Activities from "./components/Activities.jsx";
+import Activities from "../components/Activities.jsx";
 
 const Archived = () => {
   return (

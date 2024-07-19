@@ -1,6 +1,7 @@
+// Home page. Displays all the unarchived calls.
+
 import React from "react";
-import Activities from "./components/Activities.jsx";
-import { Link } from "react-router-dom";
+import Activities from "../components/Activities.jsx";
 
 const Home = () => {
   return (

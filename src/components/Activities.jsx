@@ -4,15 +4,16 @@ import {
   ChevronDown,
   ChevronUp,
   Loader2,
-} from "lucide-react";
+} from "lucide-react"; // Import icons from Lucide React
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import toast from "react-hot-toast"; // Using React Hot Toast for toast notifications
 
+// ArchivedActivities Prop stores a boolean. If True, only show archived activities, if false only show non-archived.
 export default function Activities({ archivedActivities }) {
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState([]); // This will store all of the activities fetched
   const [expandedActivityId, setExpandedActivityId] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isBulkLoading, setIsBulkLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // loading state for calls
+  const [isBulkLoading, setIsBulkLoading] = useState(false); // loading state for archive/unarchive all button
 
   useEffect(() => {
     // fetch all of the calls when page mounts
@@ -28,8 +29,9 @@ export default function Activities({ archivedActivities }) {
       }
     };
     fetchActivities();
-  }, [updateArchive]);
+  }, []);
 
+  // This function updates 1 singular call.
   const updateArchive = async ({ id, archived }) => {
     setIsLoading(true);
     try {
@@ -57,6 +59,7 @@ export default function Activities({ archivedActivities }) {
     }
   };
 
+  // This function archives all of the cals
   const archiveAll = async () => {
     setIsBulkLoading(true);
     try {
@@ -89,6 +92,7 @@ export default function Activities({ archivedActivities }) {
     }
   };
 
+  // This function unarchives all of the calls.
   const unarchiveAll = async () => {
     setIsBulkLoading(true);
     try {
@@ -109,6 +113,7 @@ export default function Activities({ archivedActivities }) {
     }
   };
 
+  // This toggle is used to decide whether to unarchive all, or archive all (depending on what page it's on)
   const handleArchiveToggle = () => {
     if (archivedActivities) {
       unarchiveAll();
@@ -117,6 +122,7 @@ export default function Activities({ archivedActivities }) {
     }
   };
 
+  // This function takes the date & time from a call and formats it to show a readable time
   const formatTime = (time) => {
     const date = new Date(time);
     let hours = date.getHours();
@@ -128,12 +134,15 @@ export default function Activities({ archivedActivities }) {
     return `${hours}:${minutesStr} ${ampm}`;
   };
 
+  // This function takes the date & time from a call and formats it to show a readable date
+
   const formatDate = (time) => {
     const date = new Date(time);
     const options = { year: "numeric", month: "long", day: "numeric" };
     return date.toLocaleDateString(undefined, options);
   };
 
+  // this function is used to toggle which call is expanded
   const toggleExpand = (id) => {
     setExpandedActivityId(expandedActivityId === id ? null : id);
   };
@@ -270,8 +279,7 @@ export default function Activities({ archivedActivities }) {
         </div>
       ) : (
         <div className="flex justify-center items-center h-full w-full mt-4">
-          {" "}
-          <Loader2 size={16} className="animate-spin mr-3" />
+          <Loader2 size={16} className="animate-spin" />
         </div>
       )}
     </div>

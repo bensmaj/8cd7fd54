@@ -17,6 +17,7 @@ export default function Activities({ archivedActivities }) {
   const [expandedActivityId, setExpandedActivityId] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // loading state for calls
   const [isBulkLoading, setIsBulkLoading] = useState(false); // loading state for archive/unarchive all button
+  const [archivedCount, setArchivedCount] = useState(0); // Store the count of archived or not archived activities (depending on the page)
 
   useEffect(() => {
     // fetch all of the calls when page mounts
@@ -27,6 +28,10 @@ export default function Activities({ archivedActivities }) {
         );
         const data = await response.json();
         setActivities(data);
+        setArchivedCount(
+          data.filter((activity) => activity.is_archived === archivedActivities)
+            .length
+        ); // Update archived count
       } catch (error) {
         console.error("Error fetching activities:", error);
       }
@@ -54,7 +59,7 @@ export default function Activities({ archivedActivities }) {
             : activity
         )
       ); // this updates the calls (activities) on the frontend
-      toast.success("Call Archived"); // send toast success
+      toast.success("Call Archived");
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -87,6 +92,7 @@ export default function Activities({ archivedActivities }) {
           is_archived: true,
         }))
       ); // Update the frontend activities state
+      setArchivedCount(0);
       toast.success("All calls archived");
     } catch (error) {
       console.error("Error archiving calls:", error);
@@ -108,6 +114,7 @@ export default function Activities({ archivedActivities }) {
           is_archived: false,
         }))
       ); // update the frontend activities state
+      setArchivedCount(0);
       toast.success("All calls unarchived");
     } catch (error) {
       console.error("Error unarchiving calls:", error);
@@ -152,19 +159,25 @@ export default function Activities({ archivedActivities }) {
 
   return (
     <div className="h-full mb-10">
-      <button
-        className="px-5 mt-2 flex justify-center items-center h-8 text-white font-semibold rounded bg-black disabled:bg-gray-500 hover:bg-gray-900 transition-colors duration-200"
-        onClick={handleArchiveToggle}
-        disabled={isBulkLoading}
-      >
-        {isBulkLoading ? (
-          <Loader2 size={16} className="animate-spin" />
-        ) : archivedActivities ? (
-          "Unarchive All"
+      {activities.length > 0 &&
+        (archivedCount > 0 ? (
+          <button
+            className="px-5 mt-2 flex justify-center items-center h-8 text-white font-semibold rounded bg-black disabled:bg-gray-500 hover:bg-gray-900 transition-colors duration-200"
+            onClick={handleArchiveToggle}
+            disabled={isBulkLoading}
+          >
+            {isBulkLoading ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : archivedActivities ? (
+              "Unarchive All"
+            ) : (
+              "Archive All"
+            )}
+          </button>
         ) : (
-          "Archive All"
-        )}
-      </button>
+          <div className="font-semibold">No Calls Found</div>
+        ))}
+
       {activities.length > 0 ? (
         <div className="flex flex-col gap-1 h-full mb-10">
           {activities

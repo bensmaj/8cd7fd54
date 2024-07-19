@@ -1,9 +1,18 @@
 // Nav Bar component
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
+  const location = useLocation();
+  const currentPath = location.pathname; // get the current pathname
+
+  // design the style for the link depending on if active or not
+  const linkStyle = (path) => {
+    return currentPath === path
+      ? "font-semibold text-black  transition-colors duration-200"
+      : "font-semibold text-gray-500 hover:text-black transition-colors duration-200";
+  };
   return (
     <header className="h-[8%] border-b flex items-center justify-around">
       <div>
@@ -67,12 +76,14 @@ const Header = () => {
           </svg>
         </Link>
       </div>
-      <div>
-        <Link to="/">Home</Link>
-      </div>
-      <div>
-        <Link to="/archived">Archived</Link>
-      </div>
+      <nav className="flex space-x-7">
+        <div className={linkStyle("/")}>
+          <Link to="/">Home</Link>
+        </div>
+        <div className={linkStyle("/archived")}>
+          <Link to="/archived">Archived</Link>
+        </div>
+      </nav>
     </header>
   );
 };

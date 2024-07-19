@@ -11,7 +11,7 @@ import Archived from "./Archived.jsx";
 const App = () => {
   return (
     <div className="container">
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="bottom-center" reverseOrder={false} />
       <Header />
       <div className="container-view h-[92%] overflow-auto">
         <Routes>

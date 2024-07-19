@@ -1,17 +1,25 @@
 import React from "react";
-import ReactDOM from "react-dom";
-
+import { Routes, Route } from "react-router-dom";
 import Header from "./Header.jsx";
+import Activities from "./components/Activities.jsx";
+import { Toaster } from "react-hot-toast";
+
+import Home from "./Home.jsx"; // Assuming you have a Home component
+import Archived from "./Archived.jsx";
 
 const App = () => {
   return (
     <div className="container">
+      <Toaster position="top-right" reverseOrder={false} />
       <Header />
-      <div className="container-view">Some activities should be here</div>
+      <div className="container-view h-[92%] overflow-auto">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="archived" element={<Archived />} />
+        </Routes>
+      </div>
     </div>
   );
 };
-
-ReactDOM.render(<App />, document.getElementById("app"));
 
 export default App;

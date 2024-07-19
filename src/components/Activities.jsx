@@ -1,3 +1,6 @@
+// This component handles most of the heavy lifting.
+// This component is used to render all of the activities (calls).
+
 import {
   PhoneIncoming,
   PhoneOutgoing,
@@ -31,7 +34,7 @@ export default function Activities({ archivedActivities }) {
     fetchActivities();
   }, []);
 
-  // This function updates 1 singular call.
+  // This function updates 1 singular call. It takes 2 props, the id of the call we're updating and the archive status.
   const updateArchive = async ({ id, archived }) => {
     setIsLoading(true);
     try {
@@ -43,15 +46,15 @@ export default function Activities({ archivedActivities }) {
         body: JSON.stringify({
           is_archived: !archived,
         }),
-      });
+      }); // this updates the call
       setActivities((prevActivities) =>
         prevActivities.map((activity) =>
           activity.id === id
             ? { ...activity, is_archived: !archived }
             : activity
         )
-      );
-      toast.success("Call Archived");
+      ); // this updates the calls (activities) on the frontend
+      toast.success("Call Archived"); // send toast success
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -59,11 +62,11 @@ export default function Activities({ archivedActivities }) {
     }
   };
 
-  // This function archives all of the cals
+  // This function archives all of the calls
   const archiveAll = async () => {
     setIsBulkLoading(true);
     try {
-      const promises = activities.map((activity) =>
+      const allCalls = activities.map((activity) =>
         fetch(
           `https://aircall-backend.onrender.com/activities/${activity.id}`,
           {
@@ -77,13 +80,13 @@ export default function Activities({ archivedActivities }) {
           }
         )
       );
-      await Promise.all(promises);
+      await Promise.all(allCalls); // Wait for all fetch requests to complete
       setActivities((prevActivities) =>
         prevActivities.map((activity) => ({
           ...activity,
           is_archived: true,
         }))
-      );
+      ); // Update the frontend activities state
       toast.success("All calls archived");
     } catch (error) {
       console.error("Error archiving calls:", error);
@@ -98,13 +101,13 @@ export default function Activities({ archivedActivities }) {
     try {
       await fetch("https://aircall-backend.onrender.com/reset", {
         method: "PATCH",
-      });
+      }); // use the reset route to reset all the calls.
       setActivities((prevActivities) =>
         prevActivities.map((activity) => ({
           ...activity,
           is_archived: false,
         }))
-      );
+      ); // update the frontend activities state
       toast.success("All calls unarchived");
     } catch (error) {
       console.error("Error unarchiving calls:", error);

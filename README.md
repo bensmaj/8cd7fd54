@@ -6,5 +6,6 @@ For this project, I utilized TailwindCSS for styling, as it's my preferred CSS s
 
 - **React Router:** Routing
 - **Lucide Icons:** Icons
+- **React Hot Toast:** Toaster notifications.
 
 ### Looking forward to hearing back!

@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Header from "../components/Header.jsx";
-import { Toaster } from "react-hot-toast";
+import Header from "../components/Header.jsx"; // Import the header / nav bar
+import { Toaster } from "react-hot-toast"; // React Hot Toast for toast notifications
 
 import Home from "./Home.jsx";
 import Archived from "./Archived.jsx";
